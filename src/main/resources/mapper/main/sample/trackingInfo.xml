@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.sample.TrackingInfoMapper">
+    <sql id="query">
+        select invoice_no as invoiceNo,
+               receiver_name as receiverName,
+               item_name as itemName,
+               product_info as productInfo,
+               sender_name as senderName,
+               receiver_addr as receiverAddr,
+               order_number as orderNumber
+        from tracking.tracking_info
+    </sql>
+
+    <select id="getById" parameterType="com.example.demo.sample.TrackingInfo" resultType="com.example.demo.sample.TrackingInfo">
+        <include refid="query"/>
+        where invoice_no = #{invoiceNo}
+    </select>
+
+    <select id="list" resultType="com.example.demo.sample.TrackingInfo">
+        <include refid="query"/>
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.sample.TrackingInfo">
+        insert into tracking.tracking_info (invoice_no, receiver_name, item_name, product_info, sender_name, receiver_addr, order_number)
+        values (#{invoiceNo}, #{receiverName}, #{itemName}, #{productInfo}, #{senderName}, #{receiverAddr}, #{orderNumber})
+    </insert>
+
+    <update id="update" parameterType="com.example.demo.sample.TrackingInfo">
+
+    </update>
+</mapper>

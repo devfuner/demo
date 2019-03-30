@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Get</title>
+
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<h1>Get</h1>
+
+<form id="frm" action="/sample/post" method="post">
+  <select id="courier" name="courier" title="택배사 선택">
+    <option>택배사를 선택해주세요.</option>
+    <option value="04" data-name="CJ대한통운">CJ대한통운</option>
+    <option value="01" data-name="우체국택배">우체국택배</option>
+    <option value="05" data-name="한진택배">한진택배</option>
+    <option value="08" data-name="롯데택배">롯데택배</option>
+    <option value="06" data-name="로젠택배" selected>로젠택배</option>
+    <option value="54" data-name="홈픽택배">홈픽택배</option>
+    <option value="24" data-name="CVSnet 편의점택배">CVSnet 편의점택배</option>
+    <option value="46" data-name="CU 편의점택배">CU 편의점택배</option>
+    <option value="23" data-name="경동택배">경동택배</option>
+    <option value="22" data-name="대신택배">대신택배</option>
+    <option value="11" data-name="일양로지스">일양로지스</option>
+    <option value="32" data-name="합동택배">합동택배</option>
+    <option value="18" data-name="건영택배">건영택배</option>
+    <option value="17" data-name="천일택배">천일택배</option>
+    <option value="20" data-name="한덱스">한덱스</option>
+    <option value="16" data-name="한의사랑택배">한의사랑택배</option>
+    <option value="12" data-name="EMS">EMS</option>
+    <option value="13" data-name="DHL">DHL</option>
+    <option value="25" data-name="TNT Express">TNT Express</option>
+    <option value="14" data-name="UPS">UPS</option>
+    <option value="21" data-name="Fedex">Fedex</option>
+    <option value="26" data-name="USPS">USPS</option>
+    <option value="34" data-name="i-Parcel">i-Parcel</option>
+    <option value="33" data-name="DHL Global Mail">DHL Global Mail</option>
+    <option value="37" data-name="범한판토스">범한판토스</option>
+    <option value="29" data-name="에어보이익스프레스">에어보이익스프레스</option>
+    <option value="28" data-name="GSMNtoN">GSMNtoN</option>
+    <option value="38" data-name="APEX(ECMS Express)">APEX(ECMS Express)</option>
+    <option value="30" data-name="KGL네트웍스">KGL네트웍스</option>
+    <option value="40" data-name="굿투럭">굿투럭</option>
+    <option value="45" data-name="호남택배">호남택배</option>
+    <option value="41" data-name="GSI Express">GSI Express</option>
+    <option value="44" data-name="SLX">SLX</option>
+    <option value="47" data-name="우리한방택배">우리한방택배</option>
+    <option value="52" data-name="세방">세방</option>
+    <option value="56" data-name="KGB택배">KGB택배</option>
+    <option value="57" data-name="Cway Express">Cway Express</option>
+  </select>
+
+  <input type="text" id="invoice" name="invoice" title="운송장번호 입력" value="90591925200">
+
+  <input id="btnSearch" type="button" value="검색">
+</form>
+
+<div class="output"></div>
+
+
+<script>
+  $(document).ready(function() {
+    $('#btnSearch').on('click', function() {
+      const frm = $('#frm');
+      const params = frm.serialize();
+
+      $.ajax({
+        url: '/sample/get',
+        data: params,
+        success: function(data) {
+          console.dir(data);
+
+          console.log(data.trackingDetails);
+
+          let oc = '<table>'; // outputContents
+
+          const reversed = data.trackingDetails.reverse();
+
+          $.each(reversed, function(idx, obj) {
+            console.log('detail >', obj);
+            oc += '<tr>';
+
+            oc += `<td>${obj.timeString}</td>`;
+            oc += `<td>${obj.where}</td>`;
+            oc += `<td>${obj.kind}</td>`;
+
+            oc += '</tr>';
+          });
+
+          oc += '</table>';
+
+          $('.output').append(oc);
+
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

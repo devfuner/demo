@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.sample.TrackingHistoryMapper">
+    <sql id="query">
+        select invoice_no, current_location, tracking_status, tel_no, time_string
+        from tracking.tracking_history
+    </sql>
+
+    <select id="list" resultType="com.example.demo.sample.TrackingHistory">
+        <include refid="query"/>
+    </select>
+
+    <insert id="insert" parameterType="com.example.demo.sample.TrackingHistory">
+        insert into tracking.tracking_history (invoice_no, current_location, tracking_status, tel_no, time_string)
+        values (#{invoiceNo}, #{currentLocation}, #{trackingStatus}, #{telNo}, #{timeString})
+    </insert>
+
+    <delete id="delete" parameterType="string">
+        delete from tracking.tracking_history where invoice_no = #{invoiceNo}
+    </delete>
+
+    <!--<delete id="delete" parameterType="com.example.demo.sample.TrackingHistory">
+        delete from tracking.tracking_history where invoice_no = #{invoiceNo}
+    </delete>-->
+
+</mapper>
